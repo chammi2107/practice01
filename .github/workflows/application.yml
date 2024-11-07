@@ -1,0 +1,23 @@
+name: Build App
+# Controls when the workflow will run  
+on: push
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v4.2.1
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependency
+        run: npm ci
+      - name: Run Test
+        run: npm test
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run linter
+        run: npm run lint
